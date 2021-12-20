@@ -9,6 +9,7 @@
   --second-bgr: #f5f4fa;
   --accent-bgr: #2f303a;
   --sec-text-color: var(--primary-bgr);
+  --timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 body {
@@ -43,10 +44,6 @@ p {
 
 img {
   display: block;
-}
-
-svg {
-  margin-bottom: -4px;
 }
 
 .btn {
@@ -138,11 +135,34 @@ svg {
 }
 
 .site-nav .link-text {
+  position: relative;
   color: var(--main-color-text);
 }
 
+.site-nav .link-text::after {
+  content: '';
+  display: block;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 0%;
+  height: 4px;
+  border-radius: 2px;
+  background-color: var(--accent-color);
+  transition: width 250ms var(--timing-function);
+}
+
+.site-nav .link-text:hover::after,
+.link-text.current::after {
+  width: 100%;
+}
+
 .contacts .link-text {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   color: var(--second-color-text);
+  transition: var(--timing-function) color 250ms;
 }
 
 .contacts .item + .item {
@@ -156,6 +176,7 @@ svg {
 .link-text svg {
   margin-right: 10px;
   fill: #757575;
+  transition: var(--timing-function) color 250ms;
 }
 
 .contacts .link-text:hover svg,
@@ -212,6 +233,7 @@ svg {
   line-height: calc(30 / 16);
   letter-spacing: 0.06em;
   color: var(--sec-text-color);
+  transition: var(--timing-function) background-color 250ms;
 }
 
 .hero-btn:hover,
@@ -367,12 +389,14 @@ svg {
   height: 44px;
   border-radius: 50%;
   background-color: var(--primary-bgr);
+  transition: background-color 250ms var(--timing-function);
 }
 
 .team-social-link svg {
   width: 20px;
   height: 20px;
   fill: #afb1b8;
+  transition: fill 250ms var(--timing-function);
 }
 
 .team-social-link:hover {
@@ -401,10 +425,12 @@ svg {
   padding: 16px 32px;
   border: 1px solid #afb1b8;
   border-radius: 4px;
+  transition: border 250ms var(--timing-function);
 }
 
 .customer-link svg {
   fill: #afb1b8;
+  transition: fill 250ms var(--timing-function);
 }
 
 .customer-link:hover {
@@ -450,6 +476,7 @@ svg {
 .address-link.address-contact {
   margin-top: 9px;
   color: rgba(255, 255, 255, 0.6);
+  transition: color 250ms var(--timing-function);
 }
 
 .address-link.address-contact:hover,
@@ -486,11 +513,13 @@ svg {
   width: 44px;
   height: 44px;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.1);
+  background-color: rgba(255, 255, 255, 0.1);
+  transition: background-color 250ms var(--timing-function);
 }
 
 .footer-social-link svg {
   fill: var(--primary-bgr);
+  transition: fill 250ms var(--timing-function);
 }
 
 .footer-social-link:hover {
@@ -524,6 +553,7 @@ svg {
   border-radius: 4px;
   color: var(--main-color-text);
   background-color: var(--second-bgr);
+  transition: background-color 250ms var(--timing-function);
 }
 
 .btn-filter:hover,
@@ -591,4 +621,65 @@ svg {
   line-height: calc(30 / 16);
   letter-spacing: 0.03em;
   color: var(--second-color-text);
+}
+
+/* modal style */
+.backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.2);
+
+  opacity: 1;
+  transition: opacity 250ms var(--timing-function);
+}
+
+.backdrop.is-hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.backdrop.is-hidden .modal {
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0.9);
+}
+
+.modal {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+
+  min-width: 528px;
+  min-height: 581px;
+
+  background-color: var(--primary-bgr);
+  box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.12), 0px 1px 1px rgba(0, 0, 0, 0.14),
+    0px 2px 1px rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+  transition: transform 250ms var(--timing-function);
+}
+
+.modal-close {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin-top: 8px;
+  margin-right: 8px;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: var(--primary-bgr);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.modal-close svg {
+  fill: #000000;
 }
